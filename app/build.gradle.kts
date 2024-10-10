@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.hilt.android) // Aplicamos el plugin de Hilt
+    id("kotlin-kapt") // Necesario para KAPT
 }
 
 android {
@@ -51,4 +53,7 @@ dependencies {
     // Navigation dependencies
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
+    // Hilt dependencies
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler) // Para la compilación de anotaciones
 }

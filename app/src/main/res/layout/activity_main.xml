@@ -26,6 +26,17 @@
             android:fontFamily="@font/spacegrotesk_medium"
             android:textSize="24sp"
             tools:text="@string/RunningProofs_Header"/>
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/ic_back"
+            android:padding="24dp"
+            android:scaleType="centerCrop"
+            app:tint="@color/text"
+            android:visibility="gone"/> <!-- Inicialmente invisible -->
     </FrameLayout>
     
     <androidx.fragment.app.FragmentContainerView
@@ -64,5 +75,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:tint="@color/white"
-        android:layout_marginBottom="-15dp"/>
+        android:layout_marginBottom="-10dp"
+        android:clickable="false"
+        android:focusable="false"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
