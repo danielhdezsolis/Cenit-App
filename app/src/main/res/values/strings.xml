@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Cenit</string>
+    <string name="app_name">°Cenit</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -17,5 +17,6 @@
     <string name="Notifications_Header">Notificaciones</string>
     <string name="Account_Header">Cuenta</string>
     <string name="OnBoarding_Header">Nueva Prueba</string>
+    <string name="splashscreen_text">By Emerald</string>
 
 </resources>
