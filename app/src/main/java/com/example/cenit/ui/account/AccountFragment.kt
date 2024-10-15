@@ -1,24 +1,25 @@
 package com.example.cenit.ui.account
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.example.cenit.R
-import com.example.cenit.databinding.FragmentAccountBinding
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 
-class AccountFragment : Fragment() {
-    private var _binding: FragmentAccountBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentAccountBinding.inflate(layoutInflater, container, false)
-        // Inflate the layout for this fragment
-        return binding.root
+@Composable
+fun AccountScreen() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(text = "Account Screen")
     }
+}
 
+@Preview(showBackground = true)
+@Composable
+fun PreviewAccountScreenScreen() {
+    AccountScreen()
 }

@@ -11,6 +11,10 @@ activity = "1.9.2"
 constraintlayout = "2.1.4"
 navigation = "2.7.1"
 hilt = "2.48"
+# Versión para Jetpack Compose
+compose = "1.5.2"
+navigation-compose = "2.5.0"
+material3Android = "1.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -27,6 +31,15 @@ navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx",
 # Hilt dependencies
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+# Jetpack Compose dependencies
+compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
+compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose" }
+navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
+
+# Previews
+compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "compose" }
+androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -37,6 +37,10 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.get() // Usar la versión de Compose definida
     }
 }
 
@@ -47,6 +51,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.material3.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -56,4 +61,13 @@ dependencies {
     // Hilt dependencies
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler) // Para la compilación de anotaciones
+    // Jetpack Compose dependencies
+    implementation(libs.compose.ui)
+    implementation(libs.compose.material)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.navigation.compose)
+
+    // Para soportar las previews
+    debugImplementation(libs.compose.ui.tooling)
+
 }
