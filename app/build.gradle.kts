@@ -50,6 +50,7 @@ android {
     buildFeatures {
         viewBinding = true
         compose = true
+        buildConfig= true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.get() // Usar la versión de Compose definida
@@ -82,7 +83,9 @@ dependencies {
     // Para soportar las previews
     debugImplementation(libs.compose.ui.tooling)
 
-    implementation(libs.supabase.gotrue)        // Supabase GoTrue
+    //implementation(libs.supabase.gotrue)        // Supabase GoTrue
+    implementation(platform(libs.supabase.bom))
+    implementation(libs.supabase.postgrest)
     implementation(libs.ktor.client.cio)        // Ktor Client CIO
     implementation(libs.lifecycle.viewmodel.compose) // Lifecycle ViewModel Compose
 

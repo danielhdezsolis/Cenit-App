@@ -45,6 +45,7 @@ import com.example.cenit.R
 import com.example.cenit.ui.account.AccountScreen
 import com.example.cenit.ui.certificates.CertificatesScreen
 import com.example.cenit.ui.devices.DevicesScreen
+import com.example.cenit.ui.login.LoginScreen
 import com.example.cenit.ui.notifications.NotificationScreen
 import com.example.cenit.ui.onboarding.OnBoardingScreen
 import com.example.cenit.ui.runningproofs.RunningProofsScreen
@@ -68,30 +69,31 @@ class MainActivity : ComponentActivity() {
         val navController = rememberNavController()
         val currentBackStackEntry by navController.currentBackStackEntryAsState()
         val isOnboardingScreen = currentBackStackEntry?.destination?.route == "onBoarding"
-
+        val isOnLoginScreen = currentBackStackEntry?.destination?.route == "login"
         Scaffold(
             topBar = {
-                if (!isOnboardingScreen) {
+                if (!isOnboardingScreen && !isOnLoginScreen) {
                     CustomToolbar(navController)
                 }
             },
             floatingActionButton = {
-                if (!isOnboardingScreen) {
+                if (!isOnboardingScreen && !isOnLoginScreen) {
                     CustomFab(navController)
                 }
             },
             floatingActionButtonPosition = FabPosition.Center,
             bottomBar = {
-                if (!isOnboardingScreen) {
+                if (!isOnboardingScreen && !isOnLoginScreen) {
                     CustomBottomNavigation(navController)
                 }
             }
         ) { innerPadding ->
             NavHost(
                 navController = navController,
-                startDestination = "runningProofs",
+                startDestination = "login",
                 modifier = Modifier.padding(innerPadding)
             ) {
+                composable("login") { LoginScreen() }
                 composable("runningProofs") { RunningProofsScreen() }
                 composable("onBoarding") { OnBoardingScreen() }
                 composable("certificates") { CertificatesScreen() }
