@@ -1,9 +1,19 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt.android) // Aplicamos el plugin de Hilt
+    alias(libs.plugins.kotlinx.serialization) // Agregar el plugin de serialization
     id("kotlin-kapt") // Necesario para KAPT
 }
+
+val properties = Properties().apply {
+    file("../local.properties").inputStream().use { load(it) }
+}
+
+val supabaseKey: String = properties.getProperty("supabaseKey")
+val supabaseUrl: String = properties.getProperty("supabaseUrl")
 
 android {
     namespace = "com.example.cenit"
@@ -17,6 +27,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "supabaseUrl", "\"$supabaseUrl\"")
+        buildConfigField("String", "supabaseKey", "\"$supabaseKey\"")
     }
 
     buildTypes {
@@ -69,5 +81,9 @@ dependencies {
 
     // Para soportar las previews
     debugImplementation(libs.compose.ui.tooling)
+
+    implementation(libs.supabase.gotrue)        // Supabase GoTrue
+    implementation(libs.ktor.client.cio)        // Ktor Client CIO
+    implementation(libs.lifecycle.viewmodel.compose) // Lifecycle ViewModel Compose
 
 }

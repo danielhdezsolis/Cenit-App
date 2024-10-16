@@ -16,7 +16,10 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemColors
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -24,7 +27,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,10 +52,8 @@ import com.example.cenit.ui.theme.CenitTheme
 import com.example.cenit.ui.theme.PrimaryColor
 import com.example.cenit.ui.theme.whiteColor
 
-
 class MainActivity : ComponentActivity() {
-    val selectedIconColor = whiteColor // Color para el icono seleccionado
-    val unselectedIconColor = PrimaryColor // Color para el icono no seleccionado
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -128,19 +131,25 @@ class MainActivity : ComponentActivity() {
         FloatingActionButton(
             onClick = {
                 navController.navigate("onBoarding")
-            }, containerColor = PrimaryColor,
+            }, containerColor = colorResource(R.color.primary),
             shape = CircleShape,
             modifier = Modifier
                 .size(40.dp)
                 .offset(y = 30.dp)
         ) {
-            Icon(Icons.Default.Add, contentDescription = "FAB", tint = whiteColor)
+            Icon(Icons.Default.Add, contentDescription = "FAB", tint = colorResource(R.color.background))
         }
     }
 
     @Composable
     fun CustomBottomNavigation(navController: NavHostController) {
-        NavigationBar {
+        val selectedIconColor = colorResource(R.color.text)
+        val unselectedIconColor = colorResource(R.color.secondary)
+        val selectedIndicatorColor = colorResource(R.color.transparentColor)
+        val backgroundColor = colorResource(R.color.tab)
+        NavigationBar(
+            containerColor = backgroundColor,
+        ) {
             NavigationBarItem(
                 icon = {
                     Icon(
@@ -150,7 +159,11 @@ class MainActivity : ComponentActivity() {
                 },
                 selected = navController.currentDestination?.route == "runningProofs",
                 onClick = { navController.navigate("runningProofs") },
-
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = selectedIconColor,
+                    unselectedIconColor = unselectedIconColor,
+                    indicatorColor = selectedIndicatorColor
+                )
             )
             NavigationBarItem(
                 icon = {
@@ -160,7 +173,12 @@ class MainActivity : ComponentActivity() {
                     )
                 },
                 selected = navController.currentDestination?.route == "certificates",
-                onClick = { navController.navigate("certificates") }
+                onClick = { navController.navigate("certificates") },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = selectedIconColor,
+                    unselectedIconColor = unselectedIconColor,
+                    indicatorColor = selectedIndicatorColor
+                )
             )
             NavigationBarItem(
                 icon = {
@@ -170,7 +188,12 @@ class MainActivity : ComponentActivity() {
                     )
                 },
                 selected = navController.currentDestination?.route == "devices",
-                onClick = { navController.navigate("devices") }
+                onClick = { navController.navigate("devices") },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = selectedIconColor,
+                    unselectedIconColor = unselectedIconColor,
+                    indicatorColor = selectedIndicatorColor
+                )
             )
             NavigationBarItem(
                 icon = {
@@ -180,12 +203,22 @@ class MainActivity : ComponentActivity() {
                     )
                 },
                 selected = navController.currentDestination?.route == "notifications",
-                onClick = { navController.navigate("notifications") }
+                onClick = { navController.navigate("notifications") },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = selectedIconColor,
+                    unselectedIconColor = unselectedIconColor,
+                    indicatorColor = selectedIndicatorColor
+                )
             )
             NavigationBarItem(
                 icon = { Icon(painterResource(R.drawable.person), contentDescription = "Account") },
                 selected = navController.currentDestination?.route == "account",
-                onClick = { navController.navigate("account") }
+                onClick = { navController.navigate("account") },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = selectedIconColor,
+                    unselectedIconColor = unselectedIconColor,
+                    indicatorColor = selectedIndicatorColor
+                )
             )
 
         }
@@ -194,13 +227,13 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun getToolbarTitle(backStackEntry: NavBackStackEntry?): String {
         return when (backStackEntry?.destination?.route) {
-            "runningProofs" -> "Pruebas en ejecución"
-            "onBoarding" -> "OnBoarding"
-            "certificates" -> "Certificados"
-            "devices" -> "Dispositivos"
-            "notifications" -> "Notificaciones"
-            "account" -> "Cuenta"
-            else -> "Cenit"
+            "runningProofs" -> stringResource(R.string.RunningProofs_Header)
+            "onBoarding" -> stringResource(R.string.OnBoarding_Header)
+            "certificates" -> stringResource(R.string.Certificates_Header)
+            "devices" -> stringResource(R.string.Devices_Header)
+            "notifications" -> stringResource(R.string.Notifications_Header)
+            "account" -> stringResource(R.string.Account_Header)
+            else -> stringResource(R.string.Default_Header)
         }
     }
 
@@ -209,6 +242,4 @@ class MainActivity : ComponentActivity() {
     fun MainScreenPreview() {
         MainScreen()
     }
-
-
 }

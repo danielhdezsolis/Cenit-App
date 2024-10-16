@@ -59,4 +59,5 @@
     <color name="filledProgressBarDanger">#C8C5D0</color>
     <color name="textCoolerType">#787680</color>
     <color name="backgroundCard">#EEEBFF</color>
+    <color name="transparentColor">#00000000</color>
 </resources>
