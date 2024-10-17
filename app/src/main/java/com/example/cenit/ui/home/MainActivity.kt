@@ -16,9 +16,7 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -50,8 +48,6 @@ import com.example.cenit.ui.notifications.NotificationScreen
 import com.example.cenit.ui.onboarding.OnBoardingScreen
 import com.example.cenit.ui.runningproofs.RunningProofsScreen
 import com.example.cenit.ui.theme.CenitTheme
-import com.example.cenit.ui.theme.PrimaryColor
-import com.example.cenit.ui.theme.whiteColor
 
 class MainActivity : ComponentActivity() {
 

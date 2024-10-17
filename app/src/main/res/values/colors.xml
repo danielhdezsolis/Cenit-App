@@ -61,4 +61,5 @@
     <color name="textCoolerType">#787680</color>
     <color name="backgroundCard">#EEEBFF</color>
     <color name="transparentColor">#00000000</color>
+    <color name="white">#FFFFFF</color>
 </resources>

@@ -1,14 +1,23 @@
 package com.example.cenit.ui.login
 
+import android.util.Log
+import android.util.Patterns
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.TextField
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -42,6 +51,11 @@ fun LoginScreen(viewModel: SupabaseAuthViewModel = viewModel()) {
     var userEmail by remember { mutableStateOf("") }
     var userPassword by remember { mutableStateOf("") }
     var currentUserState by remember { mutableStateOf("") }
+    var emailError by remember { mutableStateOf<String?>(null) }
+    var passwordError by remember { mutableStateOf<String?>(null) }
+    var showDialog by remember { mutableStateOf(false) } // Para mostrar el AlertDialog
+    var dialogMessage by remember { mutableStateOf("") } // Para el mensaje del AlertDialog
+
     val spacegroteskRegular = FontFamily(
         Font(R.font.spacegrotesk_regular)
     )
@@ -55,12 +69,21 @@ fun LoginScreen(viewModel: SupabaseAuthViewModel = viewModel()) {
         )
     }
 
+    // Función para validar correo
+    fun validateEmail(email: String): Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    // Función para validar contraseña
+    fun validatePassword(password: String): Boolean {
+        return password.isNotEmpty() && password.length >= 6
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp)
+            .padding(16.dp)
     ) {
-        // Spacer para empujar la imagen hacia abajo
         Spacer(modifier = Modifier.height(150.dp)) // Ajusta el valor según sea necesario
 
         Image(
@@ -71,14 +94,13 @@ fun LoginScreen(viewModel: SupabaseAuthViewModel = viewModel()) {
                 .height(30.dp)
                 .align(Alignment.CenterHorizontally)
         )
-        // Column para centrar los TextField
+        Spacer(modifier = Modifier.height(50.dp)) // Ajusta el valor según sea necesario
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f) // Utilizamos weight para que ocupe el espacio disponible
-                .padding(8.dp),
+                .weight(1f),
             horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.Center // Centrar los campos
+            verticalArrangement = Arrangement.Top
         ) {
             Text(
                 "Correo: ",
@@ -99,23 +121,28 @@ fun LoginScreen(viewModel: SupabaseAuthViewModel = viewModel()) {
                 },
                 leadingIcon = {
                     Image(
-                        painter = painterResource(R.drawable.ic_at_email), // Usar Painter para drawable
-                        contentDescription = "Lock Icon"
+                        painter = painterResource(R.drawable.ic_at_email),
+                        contentDescription = "Email Icon"
                     )
                 },
                 onValueChange = { userEmail = it },
                 maxLines = 1,
                 singleLine = true,
                 modifier = Modifier
-                    .fillMaxWidth() // Para que el TextField ocupe todo el ancho
-                , shape = RoundedCornerShape(8.dp),
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(8.dp),
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = colorResource(R.color.inputContainer), // Cambia el color de fondo
-                    unfocusedContainerColor = colorResource(R.color.inputContainer), // Cambia el color de fondo
+                    focusedContainerColor = colorResource(R.color.inputContainer),
+                    unfocusedContainerColor = colorResource(R.color.inputContainer),
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 )
             )
+            if (emailError != null) {
+                Text(text = emailError ?: "", color = Color.Red)
+            }
+
             Spacer(modifier = Modifier.padding(8.dp))
 
             Text(
@@ -137,14 +164,14 @@ fun LoginScreen(viewModel: SupabaseAuthViewModel = viewModel()) {
                 },
                 leadingIcon = {
                     Image(
-                        painter = painterResource(R.drawable.ic_lock), // Usar Painter para drawable
+                        painter = painterResource(R.drawable.ic_lock),
                         contentDescription = "Lock Icon"
                     )
                 },
                 trailingIcon = {
                     Image(
-                        painter = painterResource(R.drawable.ic_eye), // Usar Painter para drawable
-                        contentDescription = "Lock Icon"
+                        painter = painterResource(R.drawable.ic_eye),
+                        contentDescription = "Eye Icon"
                     )
                 },
                 onValueChange = { userPassword = it },
@@ -153,57 +180,70 @@ fun LoginScreen(viewModel: SupabaseAuthViewModel = viewModel()) {
                 maxLines = 1,
                 singleLine = true,
                 modifier = Modifier
-                    .fillMaxWidth() // Para que el TextField ocupe todo el ancho
-                , shape = RoundedCornerShape(8.dp),
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(8.dp),
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = colorResource(R.color.inputContainer), // Cambia el color de fondo
-                    unfocusedContainerColor = colorResource(R.color.inputContainer), // Cambia el color de fondo
+                    focusedContainerColor = colorResource(R.color.inputContainer),
+                    unfocusedContainerColor = colorResource(R.color.inputContainer),
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 )
             )
+            if (passwordError != null) {
+                Text(text = passwordError ?: "", color = Color.Red)
+            }
         }
 
-        // Spacer para separar los campos del área de los botones
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Usamos un Spacer para empujar los botones al fondo
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-//            Button(onClick = {
-//                viewModel.signUp(
-//                    context,
-//                    userEmail,
-//                    userPassword
-//                )
-//            }) {
-//                Text(text = "Inscribirse")
-//            }
-//            Spacer(modifier = Modifier.padding(8.dp))
-            Button(onClick = {
-                viewModel.login(
-                    context,
-                    userEmail,
-                    userPassword
-                )
-            }) {
-                Text(text = "Iniciar sesión")
-            }
-            Spacer(modifier = Modifier.padding(8.dp))
             Button(
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                colors = ButtonDefaults.buttonColors(containerColor = colorResource(R.color.primary)),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(8.dp),
                 onClick = {
-                    viewModel.logout(context)
+                    emailError = if (!validateEmail(userEmail)) {
+                        "Correo inválido"
+                    } else null
+
+                    passwordError = if (!validatePassword(userPassword)) {
+                        "La contraseña debe tener al menos 6 caracteres"
+                    } else null
+
+                    if (emailError == null && passwordError == null) {
+                        viewModel.login(
+                            context,
+                            userEmail,
+                            userPassword
+                        )
+                    }
                 }) {
-                Text(text = "Cerrar sesión")
+                Text(
+                    text = "Entrar",
+                    fontFamily = spacegroteskRegular,
+                    color = colorResource(R.color.white),
+                    fontSize = 16.sp
+                )
             }
+//            Button(
+//                colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+//                onClick = {
+//                    viewModel.logout(context)
+//                }) {
+//                Text(text = "Cerrar sesión")
+//            }
         }
 
+        // Manejo del estado del usuario
         when (userState) {
             is UserState.Loading -> {
-                Loading()
+//                Loading()
             }
 
             is UserState.Success -> {
@@ -213,15 +253,37 @@ fun LoginScreen(viewModel: SupabaseAuthViewModel = viewModel()) {
 
             is UserState.Error -> {
                 val message = (userState as UserState.Error).message
-                currentUserState = message
+                dialogMessage = message // Asigna el mensaje de error al AlertDialog
+                showDialog = true // Muestra el AlertDialog
             }
+
+            UserState.ClearError -> showDialog = false
         }
 
         if (currentUserState.isNotEmpty()) {
             Text(text = currentUserState)
         }
     }
+
+    // AlertDialog para mostrar el error
+    if (showDialog) {
+        Log.d("AlertDialog", "Alerta mostrada: $showDialog")
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            confirmButton = {
+                Button(onClick = {
+                    viewModel.resetUserState()
+                    Log.d("AlertDialog", "Botón OK presionado: $showDialog")
+                }) {
+                    Text("OK")
+                }
+            },
+            title = { Text("Error de Autenticación") },
+            text = { Text("El correo y/o constraseña son incorrectos") }
+        )
+    }
 }
+
 
 @Preview(showBackground = true)
 @Composable
