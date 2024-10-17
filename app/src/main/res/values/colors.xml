@@ -25,6 +25,7 @@
     <color name="barDanger">#DA342E</color>
     <color name="terminate">#f18a8a</color>
     <color name="inputContainer">#EFEFEF</color>
+    <color name="placeholder">#787680</color>
     <color name="waiting">#F4EFF7</color>
     <color name="barWaiting">#47464F</color>
     <color name="infoNotification">#D7F9E4</color>

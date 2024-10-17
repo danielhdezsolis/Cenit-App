@@ -88,5 +88,8 @@ dependencies {
     implementation(libs.supabase.postgrest)
     implementation(libs.ktor.client.cio)        // Ktor Client CIO
     implementation(libs.lifecycle.viewmodel.compose) // Lifecycle ViewModel Compose
-
+    //Icons
+    implementation(libs.compose.material.icons.extended)
+    //DataStore
+    implementation(libs.data.store)
 }
